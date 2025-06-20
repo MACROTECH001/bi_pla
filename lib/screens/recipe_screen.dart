@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import '../models/meal.dart';
+
+class RecipeScreen extends StatelessWidget {
+  final Meal meal;
+
+  const RecipeScreen({super.key, required this.meal});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Recette – ${meal.name}")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(meal.image, height: 200, fit: BoxFit.cover),
+            const SizedBox(height: 16),
+            Text(
+              "Ingrédients",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            ...meal.ingredients.map((i) => Text("• $i")).toList(),
+            const SizedBox(height: 16),
+            Text(
+              "Préparation",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            ...meal.steps.asMap().entries.map(
+              (entry) => Text("${entry.key + 1}. ${entry.value}"),
+            ),
+            if (meal.tip.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(
+                "Conseil",
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(meal.tip),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
