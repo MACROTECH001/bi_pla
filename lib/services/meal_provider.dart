@@ -9,3 +9,9 @@ class MealProvider {
     return jsonData.map((mealJson) => Meal.fromJson(mealJson)).toList();
   }
 }
+
+Future<List<Meal>> loadMeals() async {
+  final String data = await rootBundle.loadString('assets/json/meals.json');
+  final List<dynamic> jsonResult = json.decode(data);
+  return jsonResult.map((e) => Meal.fromJson(e)).toList();
+}

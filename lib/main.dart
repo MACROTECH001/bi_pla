@@ -23,8 +23,8 @@ class BiPlaApp extends StatelessWidget {
           elevation: 0,
         ),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFFD87D4A),
-          primary: Color(0xFFD87D4A),
+          seedColor: const Color(0xFFD87D4A),
+          primary: const Color(0xFFD87D4A),
         ),
       ),
       home: const HomeScreen(),
@@ -40,97 +40,140 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Meal>> _meals;
-
-  @override
-  void initState() {
-    super.initState();
-    _meals = MealProvider.loadMeals();
-  }
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Bi Pla – Plat du jour')),
-      body: FutureBuilder<List<Meal>>(
-        future: _meals,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Erreur : ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Aucun plat trouvé'));
-          }
-
-          // Ici on affiche juste le premier plat (comme test)
+    return FutureBuilder<List<Meal>>(
+      future: loadMeals(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Erreur : ${snapshot.error}'));
+        } else {
           final meals = snapshot.data!;
+          final meal = meals[_currentIndex % meals.length]; // 💡 Sélection contrôlée
+
           final today = DateTime.now();
-          final index = today.day % meals.length;
-          final meal = meals[index];
 
+          return Scaffold(
+            appBar: AppBar(title: const Text('Bi Pla – Plat du jour')),
+            body: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Plat du jour – ${today.day}/${today.month}/${today.year}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4B2E2B),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Text(
-                  "Plat du jour – ${today.day}/${today.month}/${today.year}",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 10),
+                      // 🧱 Affichage du plat
+                      Card(
+                        elevation: 6,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(meal.image, height: 200, fit: BoxFit.cover),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                meal.name,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFD87D4A),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                "Ingrédients",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4B2E2B),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              ...meal.ingredients.map(
+                                (i) => Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                  child: Text("• $i"),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFD87D4A),
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(meal: meal),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Voir la recette complète",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
 
-                Text(
-                  meal.name,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Image.asset(meal.image, height: 200, fit: BoxFit.cover),
-                const SizedBox(height: 10),
-                Text(
-                  "Ingrédients",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4B2E2B),
+                      const SizedBox(height: 20),
+
+                      // 🎲 Nouveau bouton pour changer de plat
+                      OutlinedButton.icon(
+                        onPressed: () {
+                          setState(() {
+                            _currentIndex = (_currentIndex + 1) % meals.length;
+                          });
+                        },
+                        icon: const Icon(Icons.refresh),
+                        label: const Text("Changer de plat"),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Color(0xFFD87D4A),
+                          side: const BorderSide(color: Color(0xFFD87D4A)),
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-
-                ...meal.ingredients.map(
-                  (i) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    child: Text("• $i"),
-                  ),
-                ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFD87D4A), // orange
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeScreen(meal: meal),
-                    ),
-                  );
-                },
-                child: const Text(
-                  "Voir la recette complète",
-                  style: TextStyle(fontSize: 16),
                 ),
               ),
-
-              ],
             ),
           );
-        },
-      ),
+        }
+      },
     );
   }
 }

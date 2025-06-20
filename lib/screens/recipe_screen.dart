@@ -15,34 +15,40 @@ class RecipeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(meal.image, height: 200, fit: BoxFit.cover),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(meal.image, height: 200, fit: BoxFit.cover),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              meal.name,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFFD87D4A)),
+            ),
             const SizedBox(height: 16),
             Text(
               "Ingrédients",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
             ),
             const SizedBox(height: 8),
-            ...meal.ingredients.map((i) => Text("• $i")).toList(),
+            ...meal.ingredients.map((i) => Text("• $i")),
             const SizedBox(height: 16),
             Text(
               "Préparation",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
             ),
             const SizedBox(height: 8),
-            ...meal.steps.asMap().entries.map(
-              (entry) => Text("${entry.key + 1}. ${entry.value}"),
-            ),
+            ...meal.steps.asMap().entries.map((entry) => Text("${entry.key + 1}. ${entry.value}")),
             if (meal.tip.isNotEmpty) ...[
               const SizedBox(height: 16),
               Text(
                 "Conseil",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
               ),
               const SizedBox(height: 8),
               Text(meal.tip),
             ],
           ],
-        ),
+        )
       ),
     );
   }
