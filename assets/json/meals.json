@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "name": "Ndolè au bœuf",
+    "image": "assets/images/ndole.png",
+    "time": 45,
+    "servings": 4,
+    "ingredients": [
+      "500 g de feuilles de ndolè",
+      "250 g de viande de bœuf",
+      "100 g d’arachides écrasées",
+      "1 oignon",
+      "Sel, huile"
+    ],
+    "steps": [
+      "Laver les feuilles de ndolè et les blanchir.",
+      "Cuire la viande de bœuf coupée en morceaux.",
+      "Incorporer les arachides écrasées.",
+      "Mélanger le tout et laisser mijoter."
+    ],
+    "tip": "Servir avec du manioc ou plantain mûr bouilli."
+  },
+  {
+    "id": 2,
+    "name": "Kondrè de porc",
+    "image": "assets/images/kondre.png",
+    "time": 60,
+    "servings": 5,
+    "ingredients": [
+      "1 kg de porc",
+      "5 plantains mûrs",
+      "1 oignon",
+      "Ail, gingembre, sel, piment",
+      "Huile, épices kondrè"
+    ],
+    "steps": [
+      "Découper et laver le porc.",
+      "Écraser les condiments et mariner la viande.",
+      "Cuire la viande avec les épices et les plantains.",
+      "Laisser mijoter jusqu’à tendreté."
+    ],
+    "tip": "Ajouter un peu de vin rouge pour parfumer la sauce."
+  },
+  {
+    "id": 3,
+    "name": "Poulet DG",
+    "image": "assets/images/poulet_dg.png",
+    "time": 50,
+    "servings": 4,
+    "ingredients": [
+      "1 poulet découpé",
+      "3 plantains mûrs",
+      "2 oignons",
+      "Poivrons, carottes",
+      "Huile, sel, poivre, ail"
+    ],
+    "steps": [
+      "Faire frire les plantains en rondelles.",
+      "Faire revenir le poulet mariné jusqu’à cuisson.",
+      "Ajouter les légumes et les plantains, puis mijoter."
+    ],
+    "tip": "Utiliser des plantains bien mûrs mais fermes pour une meilleure texture."
+  }
+]
