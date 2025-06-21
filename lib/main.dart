@@ -3,6 +3,7 @@ import 'models/meal.dart';
 import 'services/meal_provider.dart';
 import 'screens/recipe_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/saved_meals_screen.dart';
 
 void main() {
   runApp(const BiPlaApp());
@@ -135,9 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 12),
-                              Text(
+                              const Text(
                                 "Ingrédients",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF4B2E2B),
@@ -177,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               IconButton(
                                 icon: Icon(
                                   isSavedMeal(meal.name) ? Icons.bookmark : Icons.bookmark_border,
-                                  color: Color(0xFFD87D4A),
+                                  color: const Color(0xFFD87D4A),
                                   size: 28,
                                 ),
                                 onPressed: () {
@@ -201,12 +202,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: const Icon(Icons.refresh),
                         label: const Text("Changer de plat"),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Color(0xFFD87D4A),
+                          foregroundColor: const Color(0xFFD87D4A),
                           side: const BorderSide(color: Color(0xFFD87D4A)),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
+                        ),
+                      ),
+
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SavedMealsScreen(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.bookmarks_outlined, color: Color(0xFFD87D4A)),
+                        label: const Text(
+                          "Mes plats enregistrés",
+                          style: TextStyle(color: Color(0xFFD87D4A)),
                         ),
                       )
                     ],

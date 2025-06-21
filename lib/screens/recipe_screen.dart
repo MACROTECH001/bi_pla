@@ -25,24 +25,24 @@ class RecipeScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFFD87D4A)),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               "Ingrédients",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
             ),
             const SizedBox(height: 8),
             ...meal.ingredients.map((i) => Text("• $i")),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               "Préparation",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
             ),
             const SizedBox(height: 8),
             ...meal.steps.asMap().entries.map((entry) => Text("${entry.key + 1}. ${entry.value}")),
             if (meal.tip.isNotEmpty) ...[
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 "Conseil",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF4B2E2B)),
               ),
               const SizedBox(height: 8),
               Text(meal.tip),
