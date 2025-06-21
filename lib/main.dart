@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'models/meal.dart';
 import 'services/meal_provider.dart';
 import 'screens/recipe_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const BiPlaApp());
@@ -40,7 +41,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> savedMeals = []; // On garde ici la liste des plats sauvegardés
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadSavedMeals(); // Charger les plats enregistrés dès le démarrage
+  }
+
+  void loadSavedMeals() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      savedMeals = prefs.getStringList('savedMeals') ?? [];
+    });
+  }
+
+  void toggleSave(String mealName) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (savedMeals.contains(mealName)) {
+        savedMeals.remove(mealName);
+      } else {
+        savedMeals.add(mealName);
+      }
+      prefs.setStringList('savedMeals', savedMeals);
+    });
+  }
+
+  bool isSavedMeal(String mealName) {
+    return savedMeals.contains(mealName);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +172,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Voir la recette complète",
                                   style: TextStyle(fontSize: 16),
                                 ),
+                              ),
+
+                              IconButton(
+                                icon: Icon(
+                                  isSavedMeal(meal.name) ? Icons.bookmark : Icons.bookmark_border,
+                                  color: Color(0xFFD87D4A),
+                                  size: 28,
+                                ),
+                                onPressed: () {
+                                  toggleSave(meal.name);
+                                },
                               ),
                             ],
                           ),
