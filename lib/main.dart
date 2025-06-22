@@ -4,6 +4,7 @@ import 'services/meal_provider.dart';
 import 'screens/recipe_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/saved_meals_screen.dart';
+import 'screens/main_navigation.dart'; // ajoute ceci
 
 void main() {
   runApp(const BiPlaApp());
@@ -29,7 +30,7 @@ class BiPlaApp extends StatelessWidget {
           primary: const Color(0xFFD87D4A),
         ),
       ),
-      home: const HomeScreen(),
+      home: const MainNavigation(),
     );
   }
 }
@@ -91,11 +92,23 @@ class _HomeScreenState extends State<HomeScreen> {
           final today = DateTime.now();
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Bi Pla – Plat du jour')),
+            appBar: AppBar(
+              title: const Text("Bi Pla"),
+              backgroundColor: const Color(0xFFD87D4A),
+              actions: [
+                IconButton(
+                  onPressed: () => toggleSave(meal.name),
+                  icon: Icon(
+                    isSavedMeal(meal.name) ? Icons.star : Icons.star_border,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
             body: SingleChildScrollView(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -103,35 +116,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         "Plat du jour – ${today.day}/${today.month}/${today.year}",
                         style: const TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF4B2E2B),
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFD87D4A),
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 16),
 
                       // 🧱 Affichage du plat
+                      const SizedBox(height: 10),
                       Card(
                         elevation: 6,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(50),
                                 child: Image.asset(meal.image, height: 200, fit: BoxFit.cover),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 10),
                               Text(
                                 meal.name,
                                 style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFD87D4A),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -144,14 +156,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Color(0xFF4B2E2B),
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 1),
                               ...meal.ingredients.map(
                                 (i) => Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 2.0),
                                   child: Text("• $i"),
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFFD87D4A),
@@ -174,25 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ),
-
-                              IconButton(
-                                icon: Icon(
-                                  isSavedMeal(meal.name) ? Icons.bookmark : Icons.bookmark_border,
-                                  color: const Color(0xFFD87D4A),
-                                  size: 28,
-                                ),
-                                onPressed: () {
-                                  toggleSave(meal.name);
-                                },
-                              ),
                             ],
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 20),
-
+                      
                       // 🎲 Nouveau bouton pour changer de plat
+                      const SizedBox(height: 10),
                       OutlinedButton.icon(
                         onPressed: () {
                           setState(() {
@@ -210,22 +210,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-
-                      TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SavedMealsScreen(),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.bookmarks_outlined, color: Color(0xFFD87D4A)),
-                        label: const Text(
-                          "Mes plats enregistrés",
-                          style: TextStyle(color: Color(0xFFD87D4A)),
-                        ),
-                      )
+                      // TextButton.icon(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => const SavedMealsScreen(),
+                      //       ),
+                      //     );
+                      //   },
+                      //   icon: const Icon(Icons.bookmarks_outlined, color: Color(0xFFD87D4A)),
+                      //   label: const Text(
+                      //     "Mes plats enregistrés",
+                      //     style: TextStyle(color: Color(0xFFD87D4A)),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
