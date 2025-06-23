@@ -12,6 +12,7 @@
       "1 oignon",
       "Sel, huile"
     ],
+    "budget": 3500,
     "steps": [
       "Laver les feuilles de ndolè et les blanchir.",
       "Cuire la viande de bœuf coupée en morceaux.",
@@ -33,6 +34,7 @@
       "Ail, gingembre, sel, piment",
       "Huile, épices kondrè"
     ],
+    "budget": 4500,
     "steps": [
       "Découper et laver le porc.",
       "Écraser les condiments et mariner la viande.",
@@ -54,6 +56,7 @@
       "Poivrons, carottes",
       "Huile, sel, poivre, ail"
     ],
+    "budget": 5000,
     "steps": [
       "Faire frire les plantains en rondelles.",
       "Faire revenir le poulet mariné jusqu’à cuisson.",
@@ -62,3 +65,4 @@
     "tip": "Utiliser des plantains bien mûrs mais fermes pour une meilleure texture."
   }
 ]
+

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../models/meal.dart';
 
+List<Meal> meals = [];
+
 class MealProvider {
   static Future<List<Meal>> loadMeals() async {
     final String jsonString = await rootBundle.loadString('assets/json/meals.json');

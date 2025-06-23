@@ -6,6 +6,7 @@ class Meal {
   final int time;
   final int servings;
   final List<String> ingredients;
+  final int budget;
   final List<String> steps;
   final String tip;
 
@@ -17,6 +18,7 @@ class Meal {
     required this.time,
     required this.servings,
     required this.ingredients,
+    required this.budget,
     required this.steps,
     required this.tip,
   });
@@ -30,6 +32,7 @@ class Meal {
       time: json['time'],
       servings: json['servings'],
       ingredients: List<String>.from(json['ingredients']),
+      budget: json['budget'],
       steps: List<String>.from(json['steps']),
       tip: json['tip'],
     );
