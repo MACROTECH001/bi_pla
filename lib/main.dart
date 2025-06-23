@@ -4,7 +4,8 @@ import 'services/meal_provider.dart';
 import 'screens/recipe_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/saved_meals_screen.dart';
-import 'screens/main_navigation.dart'; // ajoute ceci
+import 'screens/main_navigation.dart';
+import 'screens/welcome_screen.dart';
 
 void main() {
   runApp(const BiPlaApp());
@@ -30,7 +31,7 @@ class BiPlaApp extends StatelessWidget {
           primary: const Color(0xFFD87D4A),
         ),
       ),
-      home: const MainNavigation(),
+      home: const WelcomeScreen(),
     );
   }
 }
@@ -74,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSavedMeal(String mealName) {
     return savedMeals.contains(mealName);
   }
-
 
   @override
   Widget build(BuildContext context) {

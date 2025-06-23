@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
-import 'saved_meals_screen.dart';
+import 'favorites_screen.dart';
 
-class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+class MainNavigationScreen extends StatefulWidget {
+  const MainNavigationScreen({super.key});
 
   @override
-  State<MainNavigation> createState() => _MainNavigationState();
+  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
-class _MainNavigationState extends State<MainNavigation> {
+class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const SavedMealsScreen(),
+    const FavoritesScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -29,16 +29,15 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFFD87D4A),
-        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
+        selectedItemColor: const Color(0xFFD87D4A),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant_menu),
+            icon: Icon(Icons.restaurant),
             label: 'Plat du jour',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
+            icon: Icon(Icons.star),
             label: 'Favoris',
           ),
         ],
