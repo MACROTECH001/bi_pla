@@ -9,6 +9,7 @@ class Meal {
   final int budget;
   final List<String> steps;
   final String tip;
+  final String? video;
 
   Meal({
     required this.id,
@@ -21,6 +22,7 @@ class Meal {
     required this.budget,
     required this.steps,
     required this.tip,
+    this.video,
   });
 
   factory Meal.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Meal {
       budget: json['budget'],
       steps: List<String>.from(json['steps']),
       tip: json['tip'],
+      video: json['video'] ?? "",
     );
   }
 }

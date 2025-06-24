@@ -19,7 +19,8 @@
       "Incorporer les arachides écrasées.",
       "Mélanger le tout et laisser mijoter."
     ],
-    "tip": "Servir avec du manioc ou plantain mûr bouilli."
+    "tip": "Servir avec du manioc ou plantain mûr bouilli.",
+    "video": "ndole.mp4"
   },
   {
     "id": 2,
@@ -41,7 +42,8 @@
       "Cuire la viande avec les épices et les plantains.",
       "Laisser mijoter jusqu’à tendreté."
     ],
-    "tip": "Ajouter un peu de vin rouge pour parfumer la sauce."
+    "tip": "Ajouter un peu de vin rouge pour parfumer la sauce.",
+    "video": "kondre.mp4"
   },
   {
     "id": 3,
@@ -62,7 +64,8 @@
       "Faire revenir le poulet mariné jusqu’à cuisson.",
       "Ajouter les légumes et les plantains, puis mijoter."
     ],
-    "tip": "Utiliser des plantains bien mûrs mais fermes pour une meilleure texture."
+    "tip": "Utiliser des plantains bien mûrs mais fermes pour une meilleure texture.",
+    "video": "pouletdg.mp4"
   }
 ]
 

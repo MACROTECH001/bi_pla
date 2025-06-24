@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.1.1
   shared_preferences: ^2.2.2
+  video_player: ^2.7.0
 
 
 
@@ -59,6 +60,8 @@ flutter:
   assets:
     - assets/images/
     - assets/json/
+    - assets/videos/
+
 
 
   # The following line ensures that the Material Icons font is
