@@ -40,4 +40,17 @@ class Meal {
       video: json['video'] ?? "",
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "image": image,
+    "servings": servings,
+    "budget": budget,
+    "ingredients": ingredients,
+    "steps": steps,
+    "tip": tip,
+    "time": time,
+    "video": video,
+  };
 }

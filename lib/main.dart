@@ -6,6 +6,7 @@ import 'screens/meal_search_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'screens/main_navigation.dart';
 import 'screens/welcome_screen.dart';
+import 'dart:io';
 
 void main() {
   runApp(const BiPlaApp());
@@ -87,6 +88,44 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Widget buildMealImage(String imagePath) {
+    try {
+      if (imagePath.trim().isEmpty) {
+        return const Icon(Icons.image_not_supported, size: 100, color: Colors.grey);
+      }
+
+      // Image locale
+      if (imagePath.startsWith('/')) {
+        final file = File(imagePath);
+        if (file.existsSync()) {
+          return Image.file(
+            file,
+            height: 200,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+            },
+          );
+        } else {
+          return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+        }
+      }
+
+      // Image asset
+      return Image.asset(
+        imagePath,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+        },
+      );
+    } catch (e) {
+      return const Icon(Icons.error_outline, size: 100, color: Colors.orange);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
-                                    child: Image.asset(meal.image, height: 200, fit: BoxFit.cover),
+                                    child: buildMealImage(meal.image),
                                   ),
                                   const SizedBox(height: 10),
                                   Text(

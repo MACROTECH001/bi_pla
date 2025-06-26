@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../models/meal.dart';
+import 'edit_recipe_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:io';
+
 
 class RecipeScreen extends StatefulWidget {
   final Meal meal;
@@ -41,9 +46,49 @@ class _RecipeScreenState extends State<RecipeScreen> {
     super.dispose();
   }
 
+  Widget buildMealImage(String imagePath) {
+    try {
+      if (imagePath.trim().isEmpty) {
+        return const Icon(Icons.image_not_supported, size: 100, color: Colors.grey);
+      }
+
+      // Image locale
+      if (imagePath.startsWith('/')) {
+        final file = File(imagePath);
+        if (file.existsSync()) {
+          return Image.file(
+            file,
+            height: 200,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+            },
+          );
+        } else {
+          return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+        }
+      }
+
+      // Image asset
+      return Image.asset(
+        imagePath,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(Icons.broken_image, size: 100, color: Colors.red);
+        },
+      );
+    } catch (e) {
+      return const Icon(Icons.error_outline, size: 100, color: Colors.orange);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final meal = widget.meal;
+    final isCustom = meal.id != null && meal.id.toString().startsWith("1");
 
     return Scaffold(
       appBar: AppBar(title: Text(meal.name)),
@@ -55,7 +100,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
             // 🍽 Image du plat
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(meal.image, height: 200, width: double.infinity, fit: BoxFit.cover),
+              child: buildMealImage(meal.image),
             ),
 
             const SizedBox(height: 16),
@@ -103,6 +148,41 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       ),
                       label: Text(_videoController!.value.isPlaying ? "Pause" : "Lire"),
                     ),
+                  ),
+                ],
+              ),
+              if (isCustom)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditRecipeScreen(meal: meal)),
+                      );
+                    },
+                    icon: const Icon(Icons.edit),
+                    label: const Text("Modifier"),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      final List<String> saved = prefs.getStringList('customMeals') ?? [];
+
+                      // Supprimer la recette
+                      saved.removeWhere((element) {
+                        final decoded = json.decode(element);
+                        return decoded['id'] == meal.id;
+                      });
+
+                      await prefs.setStringList('customMeals', saved);
+
+                      // Revenir à l'accueil
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    label: const Text("Supprimer", style: TextStyle(color: Colors.red)),
                   ),
                 ],
               ),
