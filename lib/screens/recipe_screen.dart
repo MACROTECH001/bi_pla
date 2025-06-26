@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../models/meal.dart';
-import 'edit_recipe_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+// import 'edit_recipe_screen.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:convert';
 import 'dart:io';
 
 
@@ -148,41 +148,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       ),
                       label: Text(_videoController!.value.isPlaying ? "Pause" : "Lire"),
                     ),
-                  ),
-                ],
-              ),
-              if (isCustom)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EditRecipeScreen(meal: meal)),
-                      );
-                    },
-                    icon: const Icon(Icons.edit),
-                    label: const Text("Modifier"),
-                  ),
-                  OutlinedButton.icon(
-                    onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      final List<String> saved = prefs.getStringList('customMeals') ?? [];
-
-                      // Supprimer la recette
-                      saved.removeWhere((element) {
-                        final decoded = json.decode(element);
-                        return decoded['id'] == meal.id;
-                      });
-
-                      await prefs.setStringList('customMeals', saved);
-
-                      // Revenir à l'accueil
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    label: const Text("Supprimer", style: TextStyle(color: Colors.red)),
                   ),
                 ],
               ),

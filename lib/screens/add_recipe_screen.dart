@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bi_pla/main.dart';
+import 'package:bi_pla/screens/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/meal.dart';
@@ -53,7 +55,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const UserMealsScreen()),
+        MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
       );
 
 
@@ -66,6 +68,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         );
       });
     }
+    
   }
 
   @override
